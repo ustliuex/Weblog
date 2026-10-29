@@ -1,0 +1,33 @@
+﻿﻿﻿﻿﻿﻿---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+const tagCount = new Map<string, number>();
+posts.forEach((p) => p.data.tags.forEach((t) => {
+	const slug = t.toLowerCase().replace(/\s+/g, '-');
+	tagCount.set(slug, (tagCount.get(slug) || 0) + 1);
+}));
+const sorted = Array.from(tagCount.entries()).sort((a, b) => b[1] - a[1]);
+---
+
+<html lang="zh-CN">
+<head>
+	<BaseHead title={`标签 · ${Astro.site}`} description="按标签浏览文章" />
+</head>
+<body>
+	<Header />
+	<main>
+		<h1>标签</h1>
+		<p style="color: rgb(var(--gray)); margin-bottom: 0.5em;">共 {sorted.length} 个标签</p>
+		<div class="tag-cloud">
+			{sorted.map(([tag, count]) => (
+				<a href={`/tags/${tag}/`}>#{tag} <span style="opacity: 0.6; font-size: 0.8em;">({count})</span></a>
+			))}
+		</div>
+	</main>
+	<Footer />
+</body>
+</html>

@@ -1,9 +1,3 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
-
 :root {
 	--accent: #2337ff;
 	--accent-dark: #000d8a;
@@ -16,8 +10,23 @@
 		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
 		0 16px 32px rgba(var(--gray), 33%);
 }
+
+/* 暗色模式 */
+[data-theme='dark'] {
+	--black: 240, 244, 251;
+	--gray: 163, 174, 195;
+	--gray-light: 45, 52, 65;
+	--gray-dark: 220, 230, 240;
+	--gray-gradient: #0f0f14, #1a1a24;
+	--accent: #818cf8;
+	--box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+html {
+	color-scheme: light dark;
+}
+
 body {
-	font-family: var(--font-atkinson);
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -28,114 +37,178 @@ body {
 	color: rgb(var(--gray-dark));
 	font-size: 20px;
 	line-height: 1.7;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+		'Hiragino Sans GB', 'Microsoft YaHei', Roboto, sans-serif;
 }
+
 main {
 	width: 720px;
 	max-width: calc(100% - 2em);
 	margin: auto;
 	padding: 3em 1em;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+
+h1, h2, h3, h4, h5, h6 {
 	margin: 0 0 0.5rem 0;
 	color: rgb(var(--black));
 	line-height: 1.2;
 }
-h1 {
-	font-size: 3.052em;
-}
-h2 {
-	font-size: 2.441em;
-}
-h3 {
-	font-size: 1.953em;
-}
-h4 {
-	font-size: 1.563em;
-}
-h5 {
-	font-size: 1.25em;
-}
-strong,
-b {
-	font-weight: 700;
-}
-a {
-	color: var(--accent);
-}
-a:hover {
-	color: var(--accent);
-}
-p {
-	margin-bottom: 1em;
-}
-.prose p {
-	margin-bottom: 2em;
-}
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-input {
-	font-size: 16px;
-}
-table {
-	width: 100%;
-}
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
-}
+h1 { font-size: 3.052em; }
+h2 { font-size: 2.441em; }
+h3 { font-size: 1.953em; }
+h4 { font-size: 1.563em; }
+h5 { font-size: 1.25em; }
+
+strong, b { font-weight: 700; }
+
+a { color: var(--accent); }
+a:hover { color: var(--accent); }
+
+p { margin-bottom: 1em; }
+.prose p { margin-bottom: 2em; }
+
+textarea { width: 100%; font-size: 16px; }
+input { font-size: 16px; }
+table { width: 100%; }
+img { max-width: 100%; height: auto; border-radius: 8px; }
+
 code {
 	padding: 2px 5px;
 	background-color: rgb(var(--gray-light));
 	border-radius: 2px;
 }
-pre {
-	padding: 1.5em;
-	border-radius: 8px;
+[data-theme='dark'] code {
+	background-color: rgb(var(--gray-light));
 }
-pre > code {
-	all: unset;
-}
+
+pre { padding: 1.5em; border-radius: 8px; }
+pre > code { all: unset; }
+
 blockquote {
 	border-left: 4px solid var(--accent);
 	padding: 0 0 0 20px;
 	margin: 0;
 	font-size: 1.333em;
 }
+
 hr {
 	border: none;
 	border-top: 1px solid rgb(var(--gray-light));
 }
+
+/* 首页文章列表 */
+.post-list { display: flex; flex-direction: column; gap: 1.5em; }
+.post-item {
+	padding: 1em;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.5);
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+.post-item:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--box-shadow);
+}
+[data-theme='dark'] .post-item {
+	background: rgba(255, 255, 255, 0.04);
+}
+.post-item h2 { margin-bottom: 0.25em; font-size: 1.3em; }
+.post-item h2 a { text-decoration: none; color: rgb(var(--black)); }
+.post-item h2 a:hover { color: var(--accent); }
+.post-meta {
+	font-size: 0.85em;
+	color: rgb(var(--gray));
+	margin-bottom: 0.5em;
+}
+.post-excerpt { font-size: 0.95em; color: rgb(var(--gray-dark)); }
+
+/* 标签列表页 */
+.tag-cloud {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	justify-content: center;
+	margin: 2em 0;
+}
+.tag-cloud a {
+	padding: 0.3em 0.8em;
+	border-radius: 999px;
+	background: rgba(35, 55, 255, 0.1);
+	text-decoration: none;
+	font-size: 0.9em;
+}
+.tag-cloud a:hover { background: rgba(35, 55, 255, 0.2); }
+[data-theme='dark'] .tag-cloud a {
+	background: rgba(129, 140, 248, 0.15);
+}
+
+/* 友链 */
+.link-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 1em;
+	margin-top: 1em;
+}
+.link-card {
+	padding: 1em;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.5);
+	text-decoration: none;
+	color: inherit;
+	transition: transform 0.2s, box-shadow 0.2s;
+	display: flex;
+	gap: 0.75em;
+	align-items: flex-start;
+}
+.link-card:hover {
+	transform: translateY(-2px);
+	box-shadow: var(--box-shadow);
+}
+[data-theme='dark'] .link-card {
+	background: rgba(255, 255, 255, 0.04);
+}
+.link-card .link-avatar {
+	width: 48px;
+	height: 48px;
+	border-radius: 8px;
+	background: rgb(var(--gray-light));
+	flex-shrink: 0;
+}
+.link-card h3 {
+	margin: 0 0 0.25em 0;
+	font-size: 1em;
+	color: var(--accent);
+}
+.link-card p {
+	margin: 0;
+	font-size: 0.85em;
+	color: rgb(var(--gray));
+}
+
+/* 搜索 */
+.search-box {
+	width: 100%;
+	padding: 0.6em 1em;
+	font-size: 1em;
+	border-radius: 8px;
+	border: 1px solid rgb(var(--gray-light));
+	background: rgb(var(--gray-light));
+	color: rgb(var(--gray-dark));
+}
+.search-box:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
 @media (max-width: 720px) {
-	body {
-		font-size: 18px;
-	}
-	main {
-		padding: 1em;
-	}
+	body { font-size: 18px; }
+	main { padding: 1em; }
 }
 
 .sr-only {
-	border: 0;
-	padding: 0;
-	margin: 0;
+	border: 0; padding: 0; margin: 0;
 	position: absolute !important;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	/* IE6, IE7 - a 0 height clip, off to the bottom right of the visible 1px box */
+	height: 1px; width: 1px; overflow: hidden;
 	clip: rect(1px 1px 1px 1px);
-	/* maybe deprecated but we need to support legacy browsers */
-	clip: rect(1px, 1px, 1px, 1px);
-	/* modern browsers, clip-path works inwards from each corner */
 	clip-path: inset(50%);
-	/* added line to stop words getting smushed together (as they go onto separate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }

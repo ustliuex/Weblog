@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('posts', ({ data }) => !data.draft);
+	const allTags = new Map<string, number>();
+	posts.forEach((post) => {
+		post.data.tags.forEach((tag) => {
+			const slug = tag.toLowerCase().replace(/\s+/g, '-');
+			allTags.set(slug, (allTags.get(slug) || 0) + 1);
+		});
+	});
+	return Array.from(allTags.entries()).map(([slug, count]) => ({
+		params: { tag: slug },
+		props: { tag: slug, count },
+	}));
+}
+
+const { tag, count } = Astro.props;
+const posts = (await getCollection('posts', ({ data }) => !data.draft &&
+	data.tags.some(t => t.toLowerCase().replace(/\s+/g, '-') === tag)))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<html lang="zh-CN">
+<head>
+	<BaseHead title={`#${tag} · ${Astro.site}`} description={`标签 ${tag} 下的 ${count} 篇文章`} />
+</head>
+<body>
+	<Header />
+	<main data-pagefind-body>
+		<h1>#{tag}</h1>
+		<p style="color: rgb(var(--gray)); margin-bottom: 1.5em;">共 {count} 篇文章</p>
+		<div class="post-list">
+			{posts.map((post) => (
+				<article class="post-item">
+					<h2><a href={`/posts/${post.id}/`}>{post.data.title}</a></h2>
+					<div class="post-meta"><FormattedDate date={post.data.pubDate} /></div>
+					<p class="post-excerpt">{post.data.description}</p>
+				</article>
+			))}
+		</div>
+	</main>
+	<Footer />
+</body>
+</html>
