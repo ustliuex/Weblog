@@ -3,11 +3,12 @@ import links from '../data/links.json';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
 ---
 
 <html lang="zh-CN">
 <head>
-	<BaseHead title={`友链 · ${Astro.site}`} description="友情链接" />
+	<BaseHead title={`友链 · ${SITE_TITLE}`} description="友情链接" />
 </head>
 <body>
 	<Header />

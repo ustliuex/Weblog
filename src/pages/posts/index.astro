@@ -4,6 +4,7 @@ import BaseHead from '../../components/BaseHead.astro';
 import Footer from '../../components/Footer.astro';
 import Header from '../../components/Header.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE } from '../../consts';
 
 const posts = (await getCollection('posts', ({ data }) => !data.draft))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -11,7 +12,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 
 <html lang="zh-CN">
 <head>
-	<BaseHead title={`文章 · ${Astro.site}`} description="全部文章列表" />
+	<BaseHead title={`文章 · ${SITE_TITLE}`} description="全部文章列表" />
 </head>
 <body>
 	<Header />

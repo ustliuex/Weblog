@@ -2,12 +2,12 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { GITHUB_USERNAME } from '../consts';
+import { GITHUB_USERNAME, SITE_TITLE } from '../consts';
 ---
 
 <html lang="zh-CN">
 <head>
-	<BaseHead title={`关于 · ${Astro.site}`} description="关于博主" />
+	<BaseHead title={`关于 · ${SITE_TITLE}`} description="关于博主" />
 </head>
 <body>
 	<Header />
