@@ -7,7 +7,7 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_TITLE } from '../../consts';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('posts', ({ data }) => !data.draft);
+	const posts = await getCollection('posts', ({ data }) => import.meta.env.DEV || !data.draft);
 	const allTags = new Map<string, number>();
 	posts.forEach((post) => {
 		post.data.tags.forEach((tag) => {
@@ -22,7 +22,7 @@ export async function getStaticPaths() {
 }
 
 const { tag, count } = Astro.props;
-const posts = (await getCollection('posts', ({ data }) => !data.draft &&
+const posts = (await getCollection('posts', ({ data }) => (import.meta.env.DEV || !data.draft) &&
 	data.tags.some(t => t.toLowerCase().replace(/\s+/g, '-') === tag)))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
